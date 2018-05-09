@@ -34,6 +34,7 @@ app.put("/filepaths/:id", (req, res) => {
 });
 
 app.delete("/filepaths/:id", (req, res) => {
+  console.log(req);
   const targetFilename = allFilenames.find(file => {
     return file.id == req.params.id;
   });
