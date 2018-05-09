@@ -15,13 +15,13 @@ app.get("/filepaths/:id", (req, res) => {
   const targetFilename = allFilenames.find(file => {
     return file.id == req.params.id;
   });
-  console.log(req.params.id);
   res.json(targetFilename);
 });
 
 app.post("/filepaths", (req, res) => {
   const newFilename = Object.assign({ id: allFilenames.length + 1 }, req.body);
   allFilenames.push(newFilename);
+  res.sendStatus(200);
 });
 
 app.put("/filepaths/:id", (req, res) => {
@@ -34,7 +34,6 @@ app.put("/filepaths/:id", (req, res) => {
 });
 
 app.delete("/filepaths/:id", (req, res) => {
-  console.log(req);
   const targetFilename = allFilenames.find(file => {
     return file.id == req.params.id;
   });

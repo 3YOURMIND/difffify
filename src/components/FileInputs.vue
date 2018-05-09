@@ -2,14 +2,18 @@
   <div>
     <input
       type="text"
+      label="FilePath"
       @input="$emit('update:filePath', $event.target.value)"
       placeholder="Enter a filepath"
-    >
+    />
     <input
       type="text"
       @input="$emit('update:tags', commaSeparatedTags($event.target.value))"
       placeholder="Enter some tags, separated by commas"
-    >
+    />
+    <button @click="$emit('addFilePath')">
+      ADD
+    </button>
   </div>
 </template>
 

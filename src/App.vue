@@ -9,6 +9,7 @@
     <FileInputs
       :filePath.sync="newFilePath"
       :tags.sync="newTags"
+      @addFilePath="addNewFilePath"
     />
     <table>
       <tr>
@@ -42,6 +43,10 @@
         {{ tag }} <button @click="removeTag(index)">Remove</button>
       </li>
     </ul>
+    <DiffDisplayer
+      v-if="showDiff"
+      :diff="diff"
+    />
   </div>
 </template>
 
@@ -49,23 +54,27 @@
 import axios from "axios";
 
 import FileInputs from "./components/FileInputs.vue";
+import DiffDisplayer from "./components/DiffDisplayer";
 
 export default {
   name: "app",
   components: {
-    FileInputs
+    FileInputs,
+    DiffDisplayer
   },
   data() {
     return {
       header: "diffify",
       filePaths: [],
-      backendUrl: "http://localhost:3000",
+      backendUrl: "/api",
       deployedBranch: "release",
       diffBranch: "dev",
       selectedTags: [],
       newSelectedTag: "",
       newFilePath: "",
-      newTags: []
+      newTags: [],
+      showDiff: false,
+      diff: ""
     };
   },
   computed: {
@@ -95,6 +104,26 @@ export default {
     removeTag(index) {
       this.selectedTags.splice(index, 1);
     },
+    addNewFilePath() {
+      const payload = {
+        path: this.newFilePath,
+        tags: this.newTags,
+        additional_info: {
+          additionalProp1: "string",
+          additionalProp2: "string",
+          additionalProp3: "string"
+        }
+      };
+      axios
+        .post(`${this.backendUrl}/filepaths`, payload)
+        .then(response => {
+          console.log("hello");
+          this.getAllFilePaths();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     removePath(id, index) {
       axios
         .delete(`${this.backendUrl}/filepaths/${id}`)
@@ -104,18 +133,30 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    getAllFilePaths() {
+      axios
+        .get(`${this.backendUrl}/filepaths`)
+        .then(response => {
+          this.filePaths = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getDiff() {
+      axios
+        .get(`${this.backendUrl}/diff`)
+        .then(response => {
+          this.filePaths = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   mounted() {
-    axios
-      .get(`${this.backendUrl}/filepaths/`)
-      .then(response => {
-        this.filePaths = response.data;
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.getAllFilePaths();
   }
 };
 </script>
