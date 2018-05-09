@@ -1,6 +1,6 @@
 <template>
   <div>
-    <code v-for="line in splitDiff" :class="lineClasses(line)" :key="line">{{ line }} <br /> </code>
+    <pre v-for="line in splitDiff" :class="lineClasses(line)" :key="line">{{ line }}</pre>
   </div>
 </template>
 
@@ -36,6 +36,10 @@ export default {
 </script>
 
 <style lang="scss">
+pre {
+  padding: 0;
+  margin: 0;
+}
 .added-line {
   color: green;
 }

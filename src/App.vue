@@ -6,6 +6,7 @@
     <br />
     Candidate Branch Name:
     <input type="text" v-model="diffBranch"/>
+    <button @click="getDiff">GET DIFF</button>
     <FileInputs
       :filePath.sync="newFilePath"
       :tags.sync="newTags"
@@ -43,7 +44,6 @@
         {{ tag }} <button @click="removeTag(index)">Remove</button>
       </li>
     </ul>
-    <button @click="getDiff">GET DIFF</button>
     <DiffDisplayer
       v-if="showDiff"
       :diff="diff"
@@ -68,8 +68,8 @@ export default {
       header: "diffify",
       filePaths: [],
       backendUrl: "Http://localhost:8000/api",
-      deployedBranch: "B3-3754-backend-allow-selection-of-multi",
-      diffBranch: "development",
+      deployedBranch: "",
+      diffBranch: "release",
       selectedTags: [],
       newSelectedTag: "",
       newFilePath: "",
