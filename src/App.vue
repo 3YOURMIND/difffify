@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <h1>{{ header }}</h1>
-    Deployed Branch Name:
-    <input type="text" v-model="deployedBranch"/>
-    <br />
-    Candidate Branch Name:
-    <input type="text" v-model="diffBranch"/>
-    <button @click="getDiff">GET DIFF</button>
-    <FileInputs
-      :filePath.sync="newFilePath"
-      :tags.sync="newTags"
-      @addFilePath="addNewFilePath"
-    />
+    <div class="branch-input-container">
+      <h1>{{ header }}</h1>
+      Deployed Branch Name:
+      <input type="text" v-model="deployedBranch"/>
+      <br />
+      Candidate Branch Name:
+      <input type="text" v-model="diffBranch"/>
+      <button @click="getDiff">GET DIFF</button>
+    </div>
+    <div class="filepath-input-container">
+      <FileInputs
+        :filePath.sync="newFilePath"
+        :tags.sync="newTags"
+        @addFilePath="addNewFilePath"
+      />
+    </div>
     <table>
       <tr>
         <th>
@@ -37,13 +41,15 @@
         </td>
       </tr>
     </table>
-    <input type="text" v-model="newSelectedTag" placeholder="Enter tags to filter by here">
-    <button @click="addNewTag">ADD TAG</button>
-    <ul>
-      <li v-for="(tag, index) in selectedTags" :key="tag">
-        {{ tag }} <button @click="removeTag(index)">Remove</button>
-      </li>
-    </ul>
+    <div class="tag-container">
+      <button @click="addNewTag">ADD TAG</button>
+      <input type="text" v-model="newSelectedTag" placeholder="Enter tags to filter by here">
+      <ul>
+        <li v-for="(tag, index) in selectedTags" :key="tag">
+          {{ tag }} <button @click="removeTag(index)">Remove</button>
+        </li>
+      </ul>
+    </div>
     <DiffDisplayer
       v-if="showDiff"
       :diff="diff"
@@ -166,3 +172,21 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+body {
+  margin: 3% 10%;
+}
+
+.branch-input-container {
+  margin: 1em;
+}
+
+.filepath-input-container {
+  margin: 1em;
+}
+
+.tag-container {
+  direction: rtl;
+}
+</style>

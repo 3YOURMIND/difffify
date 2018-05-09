@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <pre v-for="line in splitDiff" :class="lineClasses(line)" :key="line">{{ line }}</pre>
+  <div class="diff-container">
+    <pre v-for="line in splitDiff" :class="lineClasses(line)">{{ line }}</pre>
   </div>
 </template>
 
