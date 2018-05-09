@@ -9,18 +9,6 @@ module.exports = {
     filename: "build.js"
   },
   module: {
-    dev: {
-      proxyTable: {
-        // proxy all requests starting with /api to jsonplaceholder
-        "/api": {
-          target: "http://localhost:8000/",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/api": ""
-          }
-        }
-      }
-    },
     rules: [
       {
         test: /\.css$/,
@@ -100,6 +88,24 @@ if (process.env.NODE_ENV === "production") {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  ]);
+} else {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      options: {
+        proxyTable: {
+          // proxy all requests starting with /api to jsonplaceholder
+          "/api": {
+            target: "http://localhost:8000/api",
+            changeOrigin: true
+            // pathRewrite: {
+            //   "^/api": ""
+            // }
+          }
+        }
+      }
     })
   ]);
 }

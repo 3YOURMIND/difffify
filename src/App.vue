@@ -43,6 +43,7 @@
         {{ tag }} <button @click="removeTag(index)">Remove</button>
       </li>
     </ul>
+    <button @click="getDiff">GET DIFF</button>
     <DiffDisplayer
       v-if="showDiff"
       :diff="diff"
@@ -66,9 +67,9 @@ export default {
     return {
       header: "diffify",
       filePaths: [],
-      backendUrl: "/api",
-      deployedBranch: "release",
-      diffBranch: "dev",
+      backendUrl: "Http://localhost:8000/api",
+      deployedBranch: "B3-3754-backend-allow-selection-of-multi",
+      diffBranch: "development",
       selectedTags: [],
       newSelectedTag: "",
       newFilePath: "",
@@ -108,14 +109,14 @@ export default {
       const payload = {
         path: this.newFilePath,
         tags: this.newTags,
-        additional_info: {
+        additionalInfo: {
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string"
         }
       };
       axios
-        .post(`${this.backendUrl}/filepaths`, payload)
+        .post(`${this.backendUrl}/filepaths/`, payload)
         .then(response => {
           console.log("hello");
           this.getAllFilePaths();
@@ -126,7 +127,7 @@ export default {
     },
     removePath(id, index) {
       axios
-        .delete(`${this.backendUrl}/filepaths/${id}`)
+        .delete(`${this.backendUrl}/filepaths/${id}/`)
         .then(response => {
           this.filePaths.splice(index, 1);
         })
@@ -136,7 +137,7 @@ export default {
     },
     getAllFilePaths() {
       axios
-        .get(`${this.backendUrl}/filepaths`)
+        .get(`${this.backendUrl}/filepaths/`)
         .then(response => {
           this.filePaths = response.data;
         })
@@ -146,9 +147,14 @@ export default {
     },
     getDiff() {
       axios
-        .get(`${this.backendUrl}/diff`)
+        .get(
+          `${this.backendUrl}/diff?from-version=${
+            this.deployedBranch
+          }&to-version=${this.diffBranch}`
+        )
         .then(response => {
-          this.filePaths = response.data;
+          this.diff = response.data.diff;
+          this.showDiff = true;
         })
         .catch(error => {
           console.log(error);
