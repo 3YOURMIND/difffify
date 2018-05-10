@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="filepath-input-container">
     <input
       type="text"
       label="FilePath"
@@ -31,3 +31,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.filepath-input-container {
+  margin: 1em;
+}
+</style>

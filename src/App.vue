@@ -1,21 +1,16 @@
 <template>
   <div id="app">
-    <div class="branch-input-container">
-      <h1>{{ header }}</h1>
-      Deployed Branch Name:
-      <input type="text" v-model="deployedBranch"/>
-      <br />
-      Candidate Branch Name:
-      <input type="text" v-model="diffBranch"/>
-      <button @click="getDiff">GET DIFF</button>
-    </div>
-    <div class="filepath-input-container">
-      <FileInputs
-        :filePath.sync="newFilePath"
-        :tags.sync="newTags"
-        @addFilePath="addNewFilePath"
-      />
-    </div>
+    <h1>{{ header }}</h1>
+    <BranchInputs
+      :fromBranch.sync="fromBranch"
+      :toBranch.sync="toBranch"
+      @getDiff="getDiff"
+    />
+    <FileInputs
+      :filePath.sync="newFilePath"
+      :tags.sync="newTags"
+      @addFilePath="addNewFilePath"
+    />
     <table>
       <tr>
         <th>
@@ -60,12 +55,14 @@
 <script>
 import axios from "axios";
 
+import BranchInputs from './components/BranchInputs.vue';
 import FileInputs from "./components/FileInputs.vue";
 import DiffDisplayer from "./components/DiffDisplayer";
 
 export default {
   name: "app",
   components: {
+    BranchInputs,
     FileInputs,
     DiffDisplayer
   },
@@ -74,8 +71,8 @@ export default {
       header: "diffify",
       filePaths: [],
       backendUrl: "Http://localhost:8000/api",
-      deployedBranch: "",
-      diffBranch: "release",
+      fromBranch: "",
+      toBranch: "release",
       selectedTags: [],
       newSelectedTag: "",
       newFilePath: "",
@@ -155,8 +152,8 @@ export default {
       axios
         .get(
           `${this.backendUrl}/diff?from-version=${
-            this.deployedBranch
-          }&to-version=${this.diffBranch}`
+            this.fromBranch
+          }&to-version=${this.toBranch}`
         )
         .then(response => {
           this.diff = response.data.diff;
@@ -176,14 +173,6 @@ export default {
 <style lang="scss">
 body {
   margin: 3% 10%;
-}
-
-.branch-input-container {
-  margin: 1em;
-}
-
-.filepath-input-container {
-  margin: 1em;
 }
 
 .tag-container {
