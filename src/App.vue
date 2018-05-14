@@ -11,37 +11,17 @@
       </div>
       <div class="column col-8">
         <FileInputs
-          :filePath.sync="newFilePath"
+          :filepath.sync="newFilepath"
           :tags.sync="newTags"
-          @addFilePath="addNewFilePath"
+          @addFilepath="addNewFilepath"
         />
       </div>
     </div>
-    <table>
-      <tr>
-        <th>
-          filepath:
-        </th>
-        <th>
-          tags:
-        </th>
-        <th>
-        </th>
-      </tr>
-      <tr v-for="(item, index) in filteredFilePaths" :key="item.path">
-        <td>
-          {{ item.path }}
-        </td>
-        <td>
-          <span v-for="tag in item.tags" :key="tag">
-            <span class="diffify__file-tag" v-text="tag" />
-          </span>
-        </td>
-        <td>
-          <button @click="removePath(item.id, index)">Remove</button>
-        </td>
-      </tr>
-    </table>
+    <FilepathTable
+      :filepaths="filepaths"
+      :selectedTags="selectedTags"
+      :backendUrl="backendUrl"
+    />
     <div class="tag-container">
       <button @click="addNewTag">ADD TAG</button>
       <input type="text" v-model="newSelectedTag" placeholder="Enter tags to filter by here">
@@ -63,6 +43,7 @@ import axios from "axios";
 
 import BranchInputs from "./components/BranchInputs.vue";
 import FileInputs from "./components/FileInputs.vue";
+import FilepathTable from "./components/FilepathTable.vue";
 import DiffDisplayer from "./components/DiffDisplayer";
 
 export default {
@@ -70,43 +51,25 @@ export default {
   components: {
     BranchInputs,
     FileInputs,
+    FilepathTable,
     DiffDisplayer
   },
   data() {
     return {
       header: "diff generator",
-      filePaths: [],
+      filepaths: [],
       backendUrl: "Http://localhost:8000/api",
       fromBranch: "",
       toBranch: "release",
       selectedTags: [],
       newSelectedTag: "",
-      newFilePath: "",
-      newTags: [],
+      newFilepath: "",
+      newTags: "",
       showDiff: false,
       diff: ""
     };
   },
-  computed: {
-    filteredFilePaths() {
-      return this.filePaths.filter(filePath => {
-        return this.containsAllTags(filePath.tags, this.selectedTags);
-      });
-    }
-  },
   methods: {
-    containsAllTags(targetTags, selectedTags) {
-      if (!this.selectedTags.length) {
-        return true;
-      }
-      let result = true;
-      selectedTags.forEach(selectedTag => {
-        if (!targetTags.includes(selectedTag)) {
-          result = false;
-        }
-      });
-      return result;
-    },
     addNewTag() {
       this.selectedTags.push(this.newSelectedTag);
       this.newSelectedTag = "";
@@ -114,10 +77,10 @@ export default {
     removeTag(index) {
       this.selectedTags.splice(index, 1);
     },
-    addNewFilePath() {
+    addNewFilepath() {
       const payload = {
-        path: this.newFilePath,
-        tags: this.newTags,
+        path: this.newFilepath,
+        tags: this.commaSeparatedTags(this.newTags),
         additionalInfo: {
           additionalProp1: "string",
           additionalProp2: "string",
@@ -128,27 +91,20 @@ export default {
         .post(`${this.backendUrl}/filepaths/`, payload)
         .then(response => {
           console.log("hello");
-          this.getAllFilePaths();
+          this.getAllFilepaths();
         })
         .catch(error => {
           console.log(error);
         });
     },
-    removePath(id, index) {
-      axios
-        .delete(`${this.backendUrl}/filepaths/${id}/`)
-        .then(response => {
-          this.filePaths.splice(index, 1);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    commaSeparatedTags(tagString) {
+      return tagString.split(",");
     },
-    getAllFilePaths() {
+    getAllFilepaths() {
       axios
         .get(`${this.backendUrl}/filepaths/`)
         .then(response => {
-          this.filePaths = response.data;
+          this.filepaths = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -171,7 +127,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllFilePaths();
+    this.getAllFilepaths();
   }
 };
 </script>

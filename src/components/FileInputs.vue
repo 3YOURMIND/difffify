@@ -5,20 +5,20 @@
       <input
         class="form-input"
         type="text"
-        label="FilePath"
-        @input="$emit('update:filePath', $event.target.value)"
+        label="Filepath"
+        @input="$emit('update:filepath', $event.target.value)"
         placeholder="Enter a filepath"
       />
       <label class="form-label" v-text="'Tags'" />
       <input
         class="form-input"
         type="text"
-        @input="$emit('update:tags', commaSeparatedTags($event.target.value))"
+        @input="$emit('update:tags', $event.target.value)"
         placeholder="Enter some tags, separated by commas"
       />
     </div>
     <button
-      @click="$emit('addFilePath')"
+      @click="addFilepath"
       class="secondary"
     >
       ADD
@@ -30,12 +30,14 @@
 export default {
   name: "FileInputs",
   props: {
-    filePath: String,
-    tags: Array
+    filepath: String,
+    tags: String
   },
   methods: {
-    commaSeparatedTags(tagString) {
-      return tagString.split(",");
+    addFilepath() {
+      this.$emit("addFilepath");
+      this.$emit("update:filepath", "");
+      this.$emit("update:tags", "");
     }
   }
 };
