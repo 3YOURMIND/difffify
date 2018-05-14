@@ -1,25 +1,26 @@
 <template>
-  <div class="columns">
-    <div class="column col-4">
-      <div class="branch-input-container form-group">
-        <label class="form-label" v-text="'From:'" />
-        <input
-          class="form-input"
-          type="text"
-          :value="fromBranch"
-          @input="handleInput('from', $event)"
-        />
-        <label class="form-label" v-text="'To:'" />
-        <input
-          class="form-input"
-          type="text" :value="toBranch"
-          @input="handleInput('to', $event)"
-        />
-      </div>
+  <div>
+    <div class="form-group">
+      <label class="form-label" v-text="'From'" />
+      <input
+        class="form-input"
+        type="text"
+        :value="fromBranch"
+        @input="handleInput('from', $event)"
+      />
+      <label class="form-label" v-text="'To'" />
+      <input
+        class="form-input"
+        type="text" :value="toBranch"
+        @input="handleInput('to', $event)"
+      />
     </div>
-    <div class="column col-4">
-      <button @click="$emit('getDiff')">GET DIFF</button>
-    </div>
+    <button
+      @click="$emit('getDiff')"
+      class="primary"
+    >
+      GET DIFF
+    </button>
   </div>
 </template>
 

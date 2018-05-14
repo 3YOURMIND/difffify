@@ -1,16 +1,22 @@
 <template>
   <div id="app">
-    <h1>{{ header }}</h1>
-    <BranchInputs
-      :fromBranch.sync="fromBranch"
-      :toBranch.sync="toBranch"
-      @getDiff="getDiff"
-    />
-    <FileInputs
-      :filePath.sync="newFilePath"
-      :tags.sync="newTags"
-      @addFilePath="addNewFilePath"
-    />
+    <h1 v-text="header"></h1>
+    <div class="columns">
+      <div class="column col-4">
+        <BranchInputs
+          :fromBranch.sync="fromBranch"
+          :toBranch.sync="toBranch"
+          @getDiff="getDiff"
+        />
+      </div>
+      <div class="column col-8">
+        <FileInputs
+          :filePath.sync="newFilePath"
+          :tags.sync="newTags"
+          @addFilePath="addNewFilePath"
+        />
+      </div>
+    </div>
     <table>
       <tr>
         <th>
@@ -28,7 +34,7 @@
         </td>
         <td>
           <span v-for="tag in item.tags" :key="tag">
-            {{ tag }}<br>
+            <span class="diffify__file-tag" v-text="tag" />
           </span>
         </td>
         <td>
@@ -55,7 +61,7 @@
 <script>
 import axios from "axios";
 
-import BranchInputs from './components/BranchInputs.vue';
+import BranchInputs from "./components/BranchInputs.vue";
 import FileInputs from "./components/FileInputs.vue";
 import DiffDisplayer from "./components/DiffDisplayer";
 
@@ -68,7 +74,7 @@ export default {
   },
   data() {
     return {
-      header: "diffify",
+      header: "diff generator",
       filePaths: [],
       backendUrl: "Http://localhost:8000/api",
       fromBranch: "",
@@ -151,9 +157,9 @@ export default {
     getDiff() {
       axios
         .get(
-          `${this.backendUrl}/diff?from-version=${
-            this.fromBranch
-          }&to-version=${this.toBranch}`
+          `${this.backendUrl}/diff?from-version=${this.fromBranch}&to-version=${
+            this.toBranch
+          }`
         )
         .then(response => {
           this.diff = response.data.diff;
@@ -173,6 +179,14 @@ export default {
 <style lang="scss">
 body {
   margin: 3% 10%;
+}
+
+.diffify__file-tag {
+  border-radius: 5px;
+  background-color: #2c66c4;
+  color: #fff;
+  margin: 0.25em;
+  padding: 0.25em;
 }
 
 .tag-container {

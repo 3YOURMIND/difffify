@@ -1,17 +1,26 @@
 <template>
-  <div class="filepath-input-container">
-    <input
-      type="text"
-      label="FilePath"
-      @input="$emit('update:filePath', $event.target.value)"
-      placeholder="Enter a filepath"
-    />
-    <input
-      type="text"
-      @input="$emit('update:tags', commaSeparatedTags($event.target.value))"
-      placeholder="Enter some tags, separated by commas"
-    />
-    <button @click="$emit('addFilePath')">
+  <div>
+    <div class="form-group">
+      <label class="form-label" v-text="'Filepath'" />
+      <input
+        class="form-input"
+        type="text"
+        label="FilePath"
+        @input="$emit('update:filePath', $event.target.value)"
+        placeholder="Enter a filepath"
+      />
+      <label class="form-label" v-text="'Tags'" />
+      <input
+        class="form-input"
+        type="text"
+        @input="$emit('update:tags', commaSeparatedTags($event.target.value))"
+        placeholder="Enter some tags, separated by commas"
+      />
+    </div>
+    <button
+      @click="$emit('addFilePath')"
+      class="secondary"
+    >
       ADD
     </button>
   </div>
@@ -33,7 +42,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.filepath-input-container {
-  margin: 1em;
-}
+
 </style>
