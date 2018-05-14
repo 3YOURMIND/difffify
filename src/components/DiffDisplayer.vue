@@ -1,6 +1,10 @@
 <template>
   <div class="diff-container">
-    <pre v-for="line in splitDiff" :class="lineClasses(line)">{{ line }}</pre>
+    <div v-for="(line, index) in splitDiff" :key="index">
+      <pre :class="lineClasses(line)">
+        {{line}}
+      </pre>
+    </div>
   </div>
 </template>
 
@@ -15,7 +19,8 @@ export default {
   },
   computed: {
     splitDiff() {
-      return this.diff.split("\n");
+      return this.diff.split("\n")
+        .slice(2, this.diff.length)
     }
   },
   methods: {
@@ -27,8 +32,9 @@ export default {
     },
     lineClasses(line) {
       return {
-        "added-line": this.isAddedLine(line),
-        "deleted-line": this.isDeletedLine(line)
+        "diffify__added-line": this.isAddedLine(line),
+        "diffify__deleted-line": this.isDeletedLine(line),
+        "diffify__line": true
       };
     }
   }
@@ -40,11 +46,15 @@ pre {
   padding: 0;
   margin: 0;
 }
-.added-line {
+
+.diffify__line {
+  font-size: 0.875em;
+}
+.diffify__added-line {
   color: green;
 }
 
-.deleted-line {
+.diffify__deleted-line {
   color: red;
 }
 </style>
