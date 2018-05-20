@@ -14,6 +14,7 @@
           :filepath.sync="newFilepath"
           :tags.sync="newTags"
           @addFilepath="addNewFilepath"
+          :filepaths="filepaths"
         />
       </div>
     </div>

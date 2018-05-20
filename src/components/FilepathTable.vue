@@ -5,11 +5,18 @@
       <th v-text="Tags" />
       <th />
     </tr>
-    <tr v-for="(item, index) in filteredFilePaths" :key="item.path">
+    <tr v-for="(item, index) in filteredFilePaths" :key="index">
       <td v-text="item.path" />
       <td>
-        <span v-for="tag in item.tags" :key="tag">
-          <span class="diffify__file-tag" v-text="tag" />
+        <span
+          v-for="tag in item.tags"
+          :key="tag"
+        >
+          <span
+            class="diffify__file-tag"
+            v-text="tag"
+            v-if="tag.length"
+          />
         </span>
       </td>
       <td class="diffify__table-row--right">
