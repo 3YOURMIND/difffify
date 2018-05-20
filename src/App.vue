@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <vue-yodify />
     <h1 v-text="header"></h1>
     <div class="columns">
       <div class="column col-4">
@@ -91,11 +92,17 @@ export default {
       axios
         .post(`${this.backendUrl}/filepaths/`, payload)
         .then(response => {
-          console.log("hello");
+          this.$yodify({
+            text: 'Filepath added.',
+            type: 'success',
+          });
           this.getAllFilepaths();
         })
         .catch(error => {
-          console.log(error);
+          this.$yodify({
+            text: 'Something went wrong.',
+            type: 'error',
+          });
         });
     },
     commaSeparatedTags(tagString) {
@@ -112,6 +119,20 @@ export default {
         });
     },
     getDiff() {
+      if (!this.fromBranch) {
+        this.$yodify({
+          text: 'Enter a deployed branch',
+          type: 'error',
+        });
+        return;
+      }
+      if (!this.toBranch) {
+        this.$yodify({
+          text: 'Enter a target branch',
+          type: 'error',
+        });
+        return;
+      }
       axios
         .get(
           `${this.backendUrl}/diff?from-version=${this.fromBranch}&to-version=${
@@ -124,6 +145,10 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          this.$yodify({
+            text: 'Something went wrong.',
+            type: 'error',
+          });
         });
     }
   },
@@ -134,6 +159,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 body {
   margin: 3% 10%;
 }

@@ -6,6 +6,10 @@
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@3yourmind/kotti-style/-/kotti-style-0.0.2.tgz#b6fc0d9528bdbf1530a141ac52d185b186ff1461"
 
+"@3yourmind/vue-yodify@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@3yourmind/vue-yodify/-/vue-yodify-0.2.5.tgz#05a8cf1100650c1860363574350aaa56f90864f2"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
