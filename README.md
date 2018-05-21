@@ -1,18 +1,42 @@
-# difffify
+# Difffify
 
-> Frontend for hipster git diff project
+## Description
 
-## Build Setup
+> Frontend for 3YOURMIND's internal diff generator.
 
-``` bash
-# install dependencies
-npm install
+## Dependencies
 
-# serve with hot reload at localhost:8080
-npm run dev
+| Dependency | Version |
+| -- | -- |
+| 3yourmind/kotti-style | 0.0.2 |
+| @3yourmind/vue-yodify | 0.2.5 |
+| axios | 0.18.0 |
+| vue | 2.5.11 |
 
-# build for production with minification
-npm run build
-```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Installation
+
+Install dependencies with `yarn install` or `npm install`.
+
+Run the dev server with `yarn run dev` or `npm run dev`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
