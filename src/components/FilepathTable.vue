@@ -65,10 +65,17 @@ export default {
       axios
         .delete(`${this.backendUrl}/filepaths/${id}/`)
         .then(response => {
+          this.$notify({
+            text: 'Filepath deleted.',
+            type: 'info',
+          });
           this.filepaths.splice(index, 1);
         })
         .catch(error => {
-          console.log(error);
+          this.$notify({
+            text: 'Error deleting filepath.',
+            type: 'error',
+          });
         });
     }
   }

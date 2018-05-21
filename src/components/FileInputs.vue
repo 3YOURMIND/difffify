@@ -49,7 +49,7 @@ export default {
     },
     validateFilepath() {
       if (!this.filepath) {
-        this.$yodify({
+        this.$notify({
           text: 'Enter a filepath',
             type: 'error',
         });
@@ -58,13 +58,13 @@ export default {
       let alreadyAdded = false;
       this.filepaths.forEach((file) => {
         if (file.path === this.filepath)
-        this.$yodify({
+        this.$notify({
           text: 'This filepath is already added.',
           type: 'error',
         });
         alreadyAdded = true;
       })
-      return !  alreadyAdded;
+      return !alreadyAdded;
     }
   }
 };

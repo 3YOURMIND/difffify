@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <vue-yodify />
+    <notifications />
     <h1 v-text="header"></h1>
     <div class="columns">
       <div class="column col-4">
@@ -92,14 +92,14 @@ export default {
       axios
         .post(`${this.backendUrl}/filepaths/`, payload)
         .then(response => {
-          this.$yodify({
+          this.$notify({
             text: 'Filepath added.',
             type: 'success',
           });
           this.getAllFilepaths();
         })
         .catch(error => {
-          this.$yodify({
+          this.$notify({
             text: 'Something went wrong.',
             type: 'error',
           });
@@ -120,14 +120,14 @@ export default {
     },
     getDiff() {
       if (!this.fromBranch) {
-        this.$yodify({
+        this.$notify({
           text: 'Enter a deployed branch',
           type: 'error',
         });
         return;
       }
       if (!this.toBranch) {
-        this.$yodify({
+        this.$notify({
           text: 'Enter a target branch',
           type: 'error',
         });
@@ -145,7 +145,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.$yodify({
+          this.$notify({
             text: 'Something went wrong.',
             type: 'error',
           });

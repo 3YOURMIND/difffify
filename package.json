@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "@3yourmind/kotti-style": "^0.0.2",
-    "@3yourmind/vue-yodify": "^0.2.5",
     "axios": "^0.18.0",
+    "babel-preset-es2015": "^6.24.1",
     "cors": "^2.8.4",
-    "vue": "^2.5.11"
+    "vue": "^2.5.11",
+    "vue-notification": "^1.3.7"
   },
   "browserslist": [
     "> 1%",

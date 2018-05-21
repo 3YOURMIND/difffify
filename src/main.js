@@ -1,9 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
 import "@3yourmind/kotti-style";
-import VueYodify from '@3yourmind/vue-yodify';
+import Notifications from 'vue-notification'
 
-Vue.use(VueYodify);
+Vue.use(Notifications)
 
 new Vue({
   el: "#app",
