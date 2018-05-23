@@ -10,7 +10,8 @@
           />
         </div>
         <div class="column col-11">
-          <pre :class="lineClasses(line)" v-text="line" />
+          <pre v-if="isLineNumberLine(line)" :class="lineClasses(line)" v-text="line" />
+          <pre v-else :class="lineClasses(line)" v-text="trimmedLine(line)" />
         </div>
       </div>
     </div>
@@ -38,6 +39,9 @@ export default {
     },
     isDeletedLine(line) {
       return line[0] === "-";
+    },
+    trimmedLine(line) {
+      return line.slice(5, line.length);
     },
     lineClasses(line) {
       return {
