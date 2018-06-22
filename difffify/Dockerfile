@@ -1,10 +1,13 @@
-FROM node:8.9.3
-COPY ./difffify /code/difffify
+FROM node:8.11.0
 WORKDIR /code/difffify
+COPY ./app/package.json /code/difffify/
 RUN npm install
 
+COPY ./app /code/difffify
+RUN npm run build
+
 FROM nginx:1.13.9-alpine
-COPY --from=0 /code /var/www/difffify
+COPY --from=0 /code/difffify/dist /var/www/difffify
 RUN apk update \
  && apk add bash \
  && apk add py-pip \
