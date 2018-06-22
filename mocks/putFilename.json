@@ -1,9 +1,0 @@
-{
-  "path": "apps/b3_core/templates/b3_core/rotation-cube.html",
-  "tags": ["marketplace", "gkn"],
-  "additional_info": {
-    "additionalProp1": "string",
-    "additionalProp2": "string",
-    "additionalProp3": "string"
-  }
-}
