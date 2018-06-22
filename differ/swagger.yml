@@ -1,0 +1,169 @@
+swagger: "2.0"
+info:
+  version: "0.1-beta"
+  title: API for diff-generator
+consumes:
+- application/json
+produces:
+- application/json
+
+paths:
+  /filepaths:
+    get:
+      summary: List filepaths
+      description: Returns all filepaths
+      responses:
+        200:
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GetFilePath'
+          description: A list of FilePath objects
+    post:
+      summary: Add a new filepaths
+      description: Create a new filepath
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/PostFilePath'
+      responses: 
+        200:
+          schema:
+            $ref: '#/definitions/GetFilePath'
+          description: The created filepath
+  
+  /filepaths/{id}:
+    get:
+      summary: Get a single filepath
+      description: retrieves the specfied filepath
+      parameters:
+        - in: path
+          required: true
+          name: id
+          type: integer
+      responses: 
+        200:
+          schema:
+            $ref: '#/definitions/GetFilePath'
+          description: The retrieved filepath
+    put:
+      summary: update a filepath
+      description: updates the specfied filepath
+      parameters:
+        - in: path
+          required: true
+          name: id
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/PostFilePath'
+      responses: 
+        200:
+          schema:
+            $ref: '#/definitions/GetFilePath'
+          description: The retrieved filepath
+    delete:
+      summary: update a filepath
+      description: updates the specfied filepath
+      parameters:
+        - in: path
+          required: true
+          name: id
+          type: integer
+      responses: 
+        204:
+          description: successfully deleted
+  
+  /diff:
+    get:
+      summary: Get a single filepath
+      description: retrieves the specfied filepath
+      parameters:
+        - in: query
+          name: from-version
+          type: string
+          description: the last version for which the custom templates were updated
+        - in: query
+          name: to-version
+          type: string
+          description: the current version (normally, this should be 'release')
+      responses: 
+        200:
+          description: The generated diff
+          schema:
+            $ref: '#/definitions/Diff'
+        400:
+          description: Either invalid parameters (revisions not found) or no FilePaths added
+          schema:
+            type: object
+            properties:
+              diff:
+                type: object
+              error:
+                type: object
+                properties:
+                  errorMessage:
+                    type: string
+
+    
+
+definitions:
+  GetFilePath:
+    type: object
+    required:
+      - path
+      - tags
+      - additionalInfo
+      - id
+    properties:
+      id:
+        type: integer
+      path:
+        type: string
+        description: path to a custom template file. Base of the path is the repository root directory.
+        example: apps/b3_core/templates/b3_core/footer.html
+      tags:
+        type: array
+        description: a list of tags to group the file paths
+        example: [marketplace, gkn]
+        items:
+          type: string
+      additionalInfo:
+        type: object
+        description: can be used to store additional info for each custom template
+        additionalProperties:
+          type: string
+          
+  PostFilePath:
+    type: object
+    required:
+      - path
+      - tags
+      - additionalInfo
+    properties:
+      path:
+        type: string
+        description: path to a custom template file. Base of the path is the repository root directory.
+        example: apps/b3_core/templates/b3_core/footer.html
+      tags:
+        type: array
+        description: a list of tags to group the file paths
+        example: [marketplace, gkn]
+        items:
+          type: string
+      additionalInfo:
+        type: object
+        description: can be used to store additional info for each custom template
+        additionalProperties:
+          type: string
+          
+  Diff:
+    type: object
+    properties:
+      diff:
+        type: string
+        example: diff --git a/apps/...

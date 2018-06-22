@@ -1,0 +1,7 @@
+Django==2.0.5
+djangorestframework==3.8.2
+gitdb2==2.0.3
+GitPython==2.1.9
+pytz==2018.4
+smmap2==2.0.3
+whitenoise==3.3.1
