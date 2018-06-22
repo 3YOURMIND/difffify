@@ -1,0 +1,5 @@
+diff_generator/settings_local.py
+*.pyc
+.python-version
+.idea/
+db.sqlite3

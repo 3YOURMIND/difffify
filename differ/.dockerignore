@@ -1,0 +1,8 @@
+.dockerignore
+.gitignore
+.git/
+.python-version
+db.sqlite3
+Dockerfile
+readme.md
+diff_generator/settings_local.py
