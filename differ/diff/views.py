@@ -34,9 +34,10 @@ class GetDiffView(RetrieveAPIView):
             return JsonResponse({'diff': ''})
 
         try:
-            if not self.repo.remotes:
-                raise ValueError('Repository has no remote.')
-            self.repo.remotes[0].pull()
+            # TODO: restore this after access control to repo has been sorted out
+            # if not self.repo.remotes:
+            #     raise ValueError('Repository has no remote.')
+            # self.repo.remotes[0].pull()
             diff = self.repo.git.diff(*self.get_versions(), self.get_paths())
         except (ValueError, GitCommandError) as e:
             return JsonResponse({

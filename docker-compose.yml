@@ -2,15 +2,15 @@ version: '3'
 
 services:
   difffify:
-    build: 
+    build:
       context: ./difffify/
     ports:
       - "0.0.0.0:80:80"
 
   differ:
-    build: 
+    build:
       context: ./differ/
-    #ports:
-    #  - "27017:27017"
+    volumes:
+      - ../django:/app/repo
     environment:
       - DJANGO_DEBUG=1

@@ -5,8 +5,8 @@ touch /app/logs/diff_generator_gunicorn.log
 touch /app/logs/diff_generator_access.log
 tail -n 0 -f /app/logs/diff_generator_*.log &
 
-python3 manage.py collectstatic
-python3 manage.py migrate
+python3 manage.py collectstatic --noinput
+python3 manage.py migrate --noinput
 
 exec gunicorn diff_generator.wsgi:application \
     --name diff_generator \

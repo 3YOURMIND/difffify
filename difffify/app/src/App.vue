@@ -60,7 +60,7 @@ export default {
     return {
       header: "diff generator",
       filepaths: [],
-      backendUrl: "Http://localhost:8000/api",
+      backendUrl: "backend/api",
       fromBranch: "",
       toBranch: "release",
       selectedTags: [],
@@ -135,9 +135,7 @@ export default {
       }
       axios
         .get(
-          `${this.backendUrl}/diff?from-version=${this.fromBranch}&to-version=${
-            this.toBranch
-          }`
+          `${this.backendUrl}/diff/?from-version=${this.fromBranch}&to-version=${this.toBranch}`
         )
         .then(response => {
           this.diff = response.data.diff;
